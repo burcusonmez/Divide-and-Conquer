@@ -2,15 +2,15 @@
 
 ## 点分治  
 
-#### p3328 距离状态
+#### [p3328 距离状态 ](http://oi.nks.edu.cn/zh/Problem/Details?id=3328)
 
 模板
 
-#### p3329 race
+#### [p3329 race](http://oi.nks.edu.cn/zh/Problem/Details?id=3329)
 
 转化为判定某个边数是否满足条件即可，处理方式同上  
 
-#### p4367 开店
+#### [p4367 开店](http://oi.nks.edu.cn/zh/Problem/Details?id=4367)
 
 动态点分治
 
