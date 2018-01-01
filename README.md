@@ -2,15 +2,15 @@
 
 ## 点分治  
 
-#### [p3328 距离状态 ](http://oi.nks.edu.cn/zh/Problem/Details?id=3328)
+#### [p3328 距离状态 ](http://oi.nks.edu.cn/zh/Problem/Details?id=3328) :white_check_mark:
 
 模板
 
-#### [p3329 race](http://oi.nks.edu.cn/zh/Problem/Details?id=3329)
+#### [p3329 race](http://oi.nks.edu.cn/zh/Problem/Details?id=3329) :white_check_mark:
 
 转化为判定某个边数是否满足条件即可，处理方式同上  
 
-#### [p4367 开店](http://oi.nks.edu.cn/zh/Problem/Details?id=4367)
+#### [p4367 开店](http://oi.nks.edu.cn/zh/Problem/Details?id=4367) :white_check_mark:
 
 动态点分治
 
@@ -72,3 +72,22 @@ void GetTree(int x){
 }
 ```
 
+[NKOJ 4056 【ZJOI2007】Hide 捉迷藏](http://42.247.7.121/zh/Problem/Details/4065)
+
+[NKOJ 3254 【ZJOI2015 Day1】幻想乡战略游戏](http://oi.nks.edu.cn/zh/Problem/Details/3254)
+
+[NKOJ 2703 【WC2014】紫荆花之恋（强数据版）](http://oi.nks.edu.cn/zh/Problem/Details/2703)
+
+[NKOJ 2702 【WC2014】紫荆花之恋（弱数据版）](http://oi.nks.edu.cn/zh/Problem/Details/2702)
+
+[NKOJ 3611 【CQOI2016 Day1】不同的最小割 ](http://oi.nks.edu.cn/zh/Problem/Details/3611)
+
+[NKOJ 3984 WC2010重建计划](http://oi.nks.edu.cn/zh/Problem/Details/3984)
+
+[NKOJ 4351【大学生赛重庆2017】A ](http://oi.nks.edu.cn/zh/Problem/Details?id=4351)
+
+[NKOJ 3446 【HN Training 2015 Round7】 Shopping](http://oi.nks.edu.cn/zh/Problem/Details?id=3446)
+
+[NKOJ 3220 ShadowIterator再战啦啦操](http://oi.nks.edu.cn/zh/Problem/Details?id=3220)
+
+[BZOJ 2152 聪聪可可](http://www.lydsy.com/JudgeOnline/problem.php?id=2152)
