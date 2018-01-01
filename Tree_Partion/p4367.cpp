@@ -3,8 +3,10 @@
 #include<string.h>
 #include<vector>
 using namespace std;
-typedef pair<int,int> pii;
+typedef long long ll;
+typedef pair<int,ll> pil;
 const int N=300005;
+const ll Inf=9e18;
 
 int n,m,K,A[N];
 
@@ -19,8 +21,10 @@ void Ins(int x,int y,int z){
 //-----------TreePatition-------------
 
 //Get Partition Tree
-int Minn,Root,Rt,Dis,Vis[N],Size[N],Fa[N];
-vector<pii>G[N],F[N];
+int Root,Rt,Vis[N],Size[N],Fa[N],Dep[N];
+ll Dis,Minn,FLen[N][30];
+vector<int>G[N];
+vector<pil>F[N][10];
 void GetSize(int x,int fa){
 	Size[x]=1;
 	for(int i=Last[x],u;i;i=Next[i]){
@@ -42,56 +46,76 @@ void GetRoot(int x,int tot,int d,int fa){
 	}
 	if(Maxx<Minn)Minn=Maxx,Rt=x,Dis=d;
 }
+void GetDis(int x,int k,int d,int fa){
+	FLen[x][k]=d;
+	for(int i=Last[x];i;i=Next[i])
+		if(End[i]!=fa&&!Vis[End[i]])GetDis(End[i],k,d+Len[i],x);
+}
 void Pre(int x){
-	Minn=1e9;
+	Minn=Inf;
 	GetSize(x,0);
 	GetRoot(x,Size[x],0,0);
 }
 void GetTree(int x){
 	Vis[x]=1;
+	Dep[x]=Dep[Fa[x]]+1;
+	GetDis(x,Dep[x],0,0);
 	for(int u,i=Last[x];i;i=Next[i]){
 		u=End[i];
-		if(Vis[u])continue;
-		Pre(u);
-		G[x].push_back(pii(Rt,Len[i]+Dis));
-		Fa[Rt]=x;
-		GetTree(Rt);
+		if(!Vis[u]){
+			Pre(u);
+			G[x].push_back(Rt);
+			Fa[Rt]=x;
+			GetTree(Rt);
+		}
 	}
 }
 
 //Partion Tree Init
+void Collect(int x,int k,int d){
+	F[k][d].push_back(pil(A[x],FLen[x][Dep[k]]));
+	for(int i=0;i<G[x].size();i++)Collect(G[x][i],k,d);
+}
 void GetSon(int x){
-	F[x].push_back(pii(A[x],0));
-	for(int u,i=0;i<G[x].size();i++){
-		u=G[x][i].first;
-		if(u==Fa[x])continue;
-		GetSon(u);
-		for(int j=0;j<F[u].size();j++)
-			F[x].push_back(pii(F[u][j].first,F[u][j].second+G[x][i].second));
-	}
-	sort(F[x].begin(),F[x].end());
-}
-void GetPreSum(int x){
-	for(int i=0;i<G[x].size();i++)
-			GetPreSum(G[x][i].first);
-	for(int i=1;i<F[x].size();i++)
-		F[x][i].second+=F[x][i-1].second;
-}
-void GetNewSize(int x){
-	Size[x]=1;
 	for(int i=0;i<G[x].size();i++){
-		GetNewSize(G[x][i].first);
-		Size[x]+=Size[G[x][i].first];
+		F[x][i].push_back(pil(-1,0));
+		Collect(G[x][i],x,i);
+		sort(F[x][i].begin(),F[x][i].end());
+		for(int j=1;j<F[x][i].size();j++)F[x][i][j].second+=F[x][i][j-1].second;
 	}
+	for(int i=0;i<G[x].size();i++)GetSon(G[x][i]);
 }
-int GetAns(int x,int l,int r){
-	while(x){
 
-		x=Fa[x];
+//Tree Partition
+ll GetAns(int x,int l,int r){
+	int i,j,k,a,b,u,v,o;
+	ll ans=0;
+	pil R=pil(r,Inf),L=pil(l,0);
+	for(i=0;i<G[x].size();i++){
+		b=upper_bound(F[x][i].begin(),F[x][i].end(),R)-F[x][i].begin()-1;
+		a=lower_bound(F[x][i].begin(),F[x][i].end(),L)-F[x][i].begin()-1;
+		ans+=F[x][i][b].second-F[x][i][a].second;
 	}
+	for(u=Fa[x],v=x,j=Dep[u];u;u=Fa[u],v=Fa[v],j--){
+		if(A[u]>=l&&A[u]<=r)ans+=FLen[x][j];
+		for(i=0;i<G[u].size();i++){
+			o=G[u][i];
+			if(o!=v){
+				b=upper_bound(F[u][i].begin(),F[u][i].end(),R)-F[u][i].begin()-1;
+				a=lower_bound(F[u][i].begin(),F[u][i].end(),L)-F[u][i].begin()-1;
+				ans+=F[u][i][b].second-F[u][i][a].second;
+				ans+=(b-a)*FLen[x][j];
+			}
+		}
+	}
+	return ans;
 }
+
+//----------End-----------
+
 int main(){
-	int x,y,z,i,j,k,ans;
+	int x,y,z,i,j,k;
+	ll ans=0;
 	scanf("%d%d%d",&n,&m,&K);
 	for(i=1;i<=n;i++)scanf("%d",&A[i]);
 	for(i=1;i<n;i++){
@@ -102,12 +126,11 @@ int main(){
 	Root=Rt;
 	GetTree(Rt);
 	GetSon(Root);
-	GetPreSum(Root);
-	GetNewSize(Root);
 	for(i=1;i<=m;i++){
 		scanf("%d%d%d",&z,&x,&y);
-		x=min((x+ans)%K,(y+ans)%K),y=max((x+ans)%K,(y+ans)%K);
+		x=(ll)(x+ans)%K,y=(ll)(y+ans)%K;
+		if(x>y)swap(x,y);
 		ans=GetAns(z,x,y);
-		printf("%d\n",ans);
+		printf("%lld\n",ans);
 	}
 }
