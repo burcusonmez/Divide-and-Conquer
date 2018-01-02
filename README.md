@@ -25,6 +25,9 @@
 ```c++
 int Root,Rt,Vis[N],Size[N],Fa[N],Dep[N];
 ll Dis,Minn,FLen[N][30];	//FLen[i][j]表示i号节点到第j层的父节点的距离
+ll Sum[N];				//Sum[i]=sum{Dis[j][Dep[i]]-Dis[j][Dep[i]-1]}(j为i子节点)
+						//即i子节点到i距离之和减去到i父亲距离之和
+						//方便处理，在子节点上提前减掉其影响%%%Sparrow
 vector<int>G[N];
 void GetSize(int x,int fa){
 	Size[x]=1;
@@ -88,6 +91,8 @@ void GetTree(int x){
 
 #### [NKOJ 3446 【HN Training 2015 Round7】 Shopping](http://oi.nks.edu.cn/zh/Problem/Details?id=3446)
 
-#### [NKOJ 3220 ShadowIterator再战啦啦操](http://oi.nks.edu.cn/zh/Problem/Details?id=3220)
+#### [NKOJ 3220 ShadowIterator再战啦啦操](http://oi.nks.edu.cn/zh/Problem/Details?id=3220) :white_check_mark:
+
+水题，dfs两遍即可。写了个搞笑的动态点分治
 
 #### [BZOJ 2152 聪聪可可](http://www.lydsy.com/JudgeOnline/problem.php?id=2152)
