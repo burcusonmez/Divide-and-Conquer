@@ -96,11 +96,3 @@ void GetTree(int x){
 水题，dfs两遍即可。写了个搞笑的动态点分治
 
 #### [BZOJ 2152 聪聪可可](http://www.lydsy.com/JudgeOnline/problem.php?id=2152)
-
-
-
-## 分块  
-bzoj2724 区间众数  
-bzoj2880 此题不可做  
-bzoj3065 分块  
-bzoj4216 分块卡空间
