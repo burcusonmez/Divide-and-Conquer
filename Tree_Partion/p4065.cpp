@@ -17,15 +17,16 @@ void Ins(int x,int y){
 //TT
 struct Heap{
 	priority_queue<int>Q,E;
-	void Maintain(){while(Q.top()==E.top())Q.pop(),E.pop();}
+	void Maintain(){while(Q.size()&&E.size()&&Q.top()==E.top())Q.pop(),E.pop();}
 	int top(){Maintain();return Q.top();}
 	void del(int x){E.push(x);}
 	void push(int x){Q.push(x);}
-	int size(){Maintain();return Q.size();}
+	int size(){return Q.size()-E.size();}
 	int getmax(){
-		if(size()<2)return -1;
-		int t=Q.top(),rt=t;
-		Q.pop(),rt+=Q.top(),Q.push(t);
+		Maintain();
+		int t=Q.top(),rt=t;Q.pop();
+		Maintain();
+		rt+=Q.top(),Q.push(t);
 		return rt;
 	}
 }Ans,B[N],C[N];
@@ -50,23 +51,49 @@ void GetPre(int x){
 	GetRoot(x,Size[x],0);
 }
 void GetDis(int x,int k,int d,int fa){
-	Dis[x][k]=d;
+	Dis[x][Dep[k]]=d;
+	C[k].push(Dis[x][Dep[k]-1]);
 	for(int i=Last[x],u;i;i=Next[i])
 	if((u=End[i])!=fa&&!Vis[u])GetDis(u,k,d+1,x);
 }
 void GetTree(int x){
 	Vis[x]=1;
 	Dep[x]=Dep[Fa[x]]+1;
-	GetDis(x,Dep[x],0,0);
-	for(int u,i=Last[x];i;i=Next[i])
+	GetDis(x,x,0,0);
+	for(int u,t,i=Last[x];i;i=Next[i])
 		if(!Vis[u=End[i]]){
 			GetPre(u);
-			Fa[Rt]=x;
+			Fa[Rt]=x;t=Rt;
 			GetTree(Rt);
+			B[x].push(C[t].top());
 		}
+	B[x].push(0);
+	if(B[x].size()>1)Ans.push(B[x].getmax());
 }
-void Add(int x){
-
+void Off(int x){
+	if(B[x].size()>1)Ans.del(B[x].getmax());
+	B[x].push(0);
+	if(B[x].size()>1)Ans.push(B[x].getmax());
+	for(int u=Fa[x],v=x;u;u=Fa[u],v=Fa[v]){
+		if(B[u].size()>1)Ans.del(B[u].getmax());
+		if(C[v].size())B[u].del(C[v].top());
+		C[v].push(Dis[x][Dep[u]]);
+		B[u].push(C[v].top());
+		if(B[u].size()>1)Ans.push(B[u].getmax());
+	}
+}
+void On(int x){
+	if(B[x].size()>1)Ans.del(B[x].getmax());
+	B[x].del(0);
+	if(B[x].size()>1)Ans.push(B[x].getmax());
+	for(int u=Fa[x],v=x;u;u=Fa[u],v=Fa[v]){
+		if(B[u].size()>1)Ans.del(B[u].getmax());
+		if(C[v].size())B[u].del(C[v].top());
+		C[v].del(Dis[x][Dep[u]]);
+		if(C[v].size())B[u].push(C[v].top());
+		if(B[u].size()>1)Ans.push(B[u].getmax());
+	}
+}
 int main(){
 	int i,j,k,x,y;
 	char opt;
@@ -82,7 +109,12 @@ int main(){
 	while(m--){
 		opt=getchar();
 		while(opt<'A'||opt>'Z')opt=getchar();
-		if(opt=='C')scanf("%d",&x),Modify(x);
+		if(opt=='C'){
+			scanf("%d",&x);
+			if(A[x])Off(x);
+			else On(x);
+			A[x]^=1;
+		}
 		else if(Ans.size())printf("%d\n",Ans.top());
 		else puts("-1");
 	}

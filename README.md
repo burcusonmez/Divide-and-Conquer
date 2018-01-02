@@ -75,7 +75,32 @@ void GetTree(int x){
 }
 ```
 
-#### [NKOJ 4056 【ZJOI2007】Hide 捉迷藏](http://42.247.7.121/zh/Problem/Details/4065)
+#### [NKOJ 4056 【ZJOI2007】Hide 捉迷藏](http://42.247.7.121/zh/Problem/Details/4065):white_check_mark:
+
+每个点开两个堆，一个记子节点到上一层重心距离，一个记其子树到它的链,全局堆记答案
+
+##### 关于堆的一些操作
+
+如果堆A是堆B[]的堆顶集合，我们修改了一个堆B[i]，怎么维护堆A？
+
+先在堆A里删除B[i]的堆顶，操作完B[i]后，再将B[i]的堆顶加回去
+
+```c++
+void On(int x){
+	if(B[x].size()>1)Ans.del(B[x].getmax());
+	B[x].del(0);
+	if(B[x].size()>1)Ans.push(B[x].getmax());
+	for(int u=Fa[x],v=x;u;u=Fa[u],v=Fa[v]){
+		if(B[u].size()>1)Ans.del(B[u].getmax());
+		if(C[v].size())B[u].del(C[v].top());	//先删
+		C[v].del(Dis[x][Dep[u]]);				//操作
+		if(C[v].size())B[u].push(C[v].top());	//操作完后加回去
+		if(B[u].size()>1)Ans.push(B[u].getmax());
+	}
+}
+```
+
+
 
 #### [NKOJ 3254 【ZJOI2015 Day1】幻想乡战略游戏](http://oi.nks.edu.cn/zh/Problem/Details/3254)
 
