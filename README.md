@@ -112,7 +112,11 @@ void On(int x){
 
 #### [NKOJ 3984 WC2010重建计划](http://oi.nks.edu.cn/zh/Problem/Details/3984)
 
-#### [NKOJ 4351【大学生赛重庆2017】A ](http://oi.nks.edu.cn/zh/Problem/Details?id=4351)
+#### [NKOJ 4351【大学生赛重庆2017】A ](http://oi.nks.edu.cn/zh/Problem/Details?id=4351):white_check_mark:
+
+上静态点分治，fft算一下当前答案给每个点加一下，发现每个点的子节点距离都多算了2,减掉即可
+
+注意各种初始化
 
 #### [NKOJ 3446 【HN Training 2015 Round7】 Shopping](http://oi.nks.edu.cn/zh/Problem/Details?id=3446)
 
