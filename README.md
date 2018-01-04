@@ -110,7 +110,21 @@ void On(int x){
 
 #### [NKOJ 3611 【CQOI2016 Day1】不同的最小割 ](http://oi.nks.edu.cn/zh/Problem/Details/3611)
 
-#### [NKOJ 3984 WC2010重建计划](http://oi.nks.edu.cn/zh/Problem/Details/3984)
+#### [NKOJ 3984 WC2010重建计划](http://oi.nks.edu.cn/zh/Problem/Details/3984) :white_check_mark:
+
+上静态点分治，到每个重心，二分一个答案ans
+
+将该重心子树的边减去ans，如果找出一条权之和大于零的路径，就是满足条件的
+
+问题变为找一条长度L,U之间的大于零的路径
+
+枚举该重心的每一颗子树，用BFS取出当前子树的点
+
+记下之前子树中，每种路径长度的最大值
+
+BFS取出来的点按深度递增，于是可以用单调队列维护
+
+优化：每个重心的子树按最大深度从小到大排序，防止被”扫把图“卡
 
 #### [NKOJ 4351【大学生赛重庆2017】A ](http://oi.nks.edu.cn/zh/Problem/Details?id=4351):white_check_mark:
 
