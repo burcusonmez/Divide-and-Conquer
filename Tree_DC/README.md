@@ -1,4 +1,4 @@
-# Partition 分治
+# Divide-ans-Conquer 分治
 
 ## 点分治  
 
