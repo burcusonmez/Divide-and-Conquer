@@ -102,7 +102,11 @@ void On(int x){
 
 
 
-#### [NKOJ 3254 【ZJOI2015 Day1】幻想乡战略游戏](http://oi.nks.edu.cn/zh/Problem/Details/3254)
+#### [NKOJ 3254 【ZJOI2015 Day1】幻想乡战略游戏](http://oi.nks.edu.cn/zh/Problem/Details/3254):white_check_mark:
+
+带权重心，每次从一个点开始，计算它的权值，往它最优的子节点上走（原树的)
+
+计算权值用动态点分治，注意不与原树搞混即可
 
 #### [NKOJ 2703 【WC2014】紫荆花之恋（强数据版）](http://oi.nks.edu.cn/zh/Problem/Details/2703)
 
