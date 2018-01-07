@@ -1,0 +1,234 @@
+#include<stdio.h>
+#include<string.h>
+#include<vector>
+#include<stack>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+const int N=100005,Inf=1e9;
+
+//-----------SBT-----------
+
+struct Node{
+	Node* Son[2];
+	int Val,Size;
+}*T1[N],*T2[N],*null,*tl,pool[N<<7];
+stack<Node*>Bin;
+void Init_SBT(int sz){
+	tl=null=pool;
+	for(int i=1;i<=sz;i++)T1[i]=T2[i]=null;
+	null->Son[0]=null->Son[1]=null;
+	null->Val=null->Size=0;
+}
+void Rotate(Node* &x,int l){
+	int r=l^1;
+	Node* y=x->Son[r];
+	x->Son[r]=y->Son[l];
+	y->Son[l]=x;
+	y->Size=x->Size;
+	x->Size=x->Son[0]->Size+x->Son[1]->Size+1;
+	x=y;
+}
+void Maintain(Node* &x,bool flag){
+	if(flag){
+		if(x->Son[1]->Son[1]->Size>x->Son[0]->Size)
+			Rotate(x,0);
+		else if(x->Son[1]->Son[0]->Size>x->Son[0]->Size)
+			Rotate(x->Son[1],1),Rotate(x,0);
+		else return;
+	}
+	else{
+		if(x->Son[0]->Son[0]->Size>x->Son[1]->Size)
+			Rotate(x,1);
+		else if(x->Son[0]->Son[1]->Size>x->Son[1]->Size)
+			Rotate(x->Son[0],0),Rotate(x,1);
+		else return;
+	}
+	Maintain(x->Son[0],0);
+	Maintain(x->Son[1],1);
+	Maintain(x,0);
+	Maintain(x,1);
+}
+void Insert(Node* &x,int v){
+	if(x==null){
+		if(!Bin.empty())x=Bin.top(),Bin.pop();
+		else x=++tl;
+		x->Son[0]=x->Son[1]=null;
+		x->Val=v,x->Size=1;
+		return;
+	}
+	x->Size++;
+	bool l=v>x->Val;
+	Insert(x->Son[l],v);
+	Maintain(x,l);
+}
+ll GetSum(Node* x,int k){
+	ll sum=0;
+	while(x!=null){
+		if(k<x->Val)x=x->Son[0];
+		else sum+=x->Son[0]->Size+1,x=x->Son[1];
+	}
+	return sum;
+}
+void Collect(Node* x){
+	Bin.push(x);
+	if(x->Son[0]!=null)Collect(x->Son[0]);
+	if(x->Son[1]!=null)Collect(x->Son[1]);
+}
+
+//-----------Globals-----------
+
+int T,n,Totn;
+int D[N];
+ll Ans;
+
+//-----------Tree Divide & Conquer-----------
+
+//Point Informations
+struct Data{
+	int end,len;
+	Data(){}
+	Data(int y,int z):end(y),len(z){}
+};
+typedef vector<Data> vt;
+typedef vt::iterator vi;
+#define nd now->end
+
+vt G[N];
+int Size[N],Fa[N],Dep[N];
+bool Vis[N];
+
+//Tree DC Data
+int CG[22][N];
+ll Dis[22][N];
+
+//ReBuild
+int Minn,Rt,sz[N];
+void Getsz(int x,int fa){
+	sz[x]=1;
+	for(vi now=G[x].begin();now!=G[x].end();now++)
+	if(!Vis[nd]&&nd!=fa)Getsz(nd,x),sz[x]+=sz[nd];
+}
+void GetRt(int x,int tot,int fa){
+	int Maxx=tot-sz[x];
+	for(vi now=G[x].begin();now!=G[x].end();now++)
+	if(!Vis[nd]&&nd!=fa)GetRt(nd,tot,x),Maxx=max(Maxx,sz[nd]);
+	if(Maxx<Minn)Minn=Maxx,Rt=x;
+}
+void GetPre(int x){
+	Minn=1e9;
+	Getsz(x,0);
+	GetRt(x,sz[x],0);
+}
+void GetData(int x,ll *dis,ll *predis,int *cg,int k,ll d,int fa){
+	dis[x]=d;cg[x]=k;
+	Insert(T1[x],dis[x]-D[x]);
+	Insert(T2[x],predis[x]-D[x]);
+	for(vi now=G[x].begin();now!=G[x].end();now++)
+	if(!Vis[nd]&&nd!=fa)GetData(nd,dis,predis,cg,k,now->len,x);
+}
+int GetTree(int x){
+	Vis[x]=1,Size[x]=1;
+	Dep[x]=Dep[Fa[x]]+1;
+	GetData(x,Dis[Dep[x]],Dis[Dep[x]-1],CG[Dep[x]],x,0,0);
+	for(vi now=G[x].begin();now!=G[x].end();now++)
+		if(!Vis[nd]){
+			GetPre(nd);
+			Fa[Rt]=x;
+			Size[x]+=GetTree(Rt);
+		}
+	return Size[x];
+}
+void Clean(int x){
+	Vis[x]=0;
+	if(T1[x]!=null)Collect(T1[x]);
+	if(T2[x]!=null)Collect(T2[x]);
+	for(vi now=G[x].begin();now!=G[x].end();now++)
+	if(Dep[nd]>Dep[x])Clean(nd);
+}
+void ReBuild(int x){			//ReBuild the DC tree from the root x
+	Clean(x);
+	GetTree(x);
+}
+bool Isbad(int x){
+	return (double)Size[x]>(double)Size[Fa[x]]*0.8;
+}
+
+//lca for getting distance
+int lca_fa[N][22],lca_dep[N];
+ll lca_dis[N];
+int LCA(int x,int y){
+	if(lca_dep[x]>lca_dep[y])swap(x,y);
+	int i,t=lca_dep[y]-lca_dep[x];
+	for(i=0;i<=20;i++)
+	if((1<<i)&t)y=lca_fa[y][i];
+	if(x==y)return x;
+	for(i=20;i>=0;i--)
+	if(lca_fa[x][i]!=lca_fa[y][i])x=lca_fa[x][i],y=lca_fa[y][i];
+	return lca_fa[x][0];
+}
+ll lca_getdis(int x,int y){
+	return lca_dis[x]+lca_dis[y]-2*lca_dis[LCA(x,y)];
+}
+
+//-----------Dymatic Querys-----------
+
+void AddPoint(int fa,int d,int r){
+	int x=++Totn,u,v,t=0,i;
+
+	//init point Data
+	if(fa){
+		G[x].push_back(Data(fa,d));
+		G[fa].push_back(Data(x,d));
+	}
+	D[x]=r;
+	Fa[x]=fa;
+	Dep[x]=Dep[fa]+1;
+	Vis[x]=1;
+	Size[x]=1;
+	for(u=Fa[x];u;u=Fa[u])Size[u]++;
+
+	//init lca Data
+	lca_fa[x][0]=fa;
+	for(i=1;i<=20;i++)lca_fa[x][i]=lca_fa[lca_fa[x][i-1]][i-1];
+	lca_dis[x]=lca_dis[fa]+d;
+	lca_dep[x]=lca_dep[fa]+1;
+
+	//init TreeDc Data
+	Dis[0][x]=Inf;
+	for(u=x;u;u=Fa[u]){
+		CG[Dep[u]][x]=u;
+		Dis[Dep[u]][x]=lca_getdis(u,x);
+	}
+
+	//init SBT Data
+	for(u=x;u;u=Fa[u]){
+		Insert(T1[u],Dis[Dep[u]][x]-D[x]);
+		Insert(T2[u],Dis[Dep[u]-1][x]-D[x]);
+	}
+
+	//If rebuild
+	for(u=x;u;u=Fa[u])
+		if(Isbad(u))t=Fa[u];
+	if(t)ReBuild(t);
+}
+void Query(int x){
+	Ans-=GetSum(T2[x],D[x]-Dis[Dep[x]-1][x]);
+	for(int u=Fa[x];u;u=Fa[u])
+		Ans+=GetSum(T1[u],D[x]-Dis[Dep[u]][x])-GetSum(T2[u],D[x]-Dis[Dep[u]-1][x]);
+}
+
+
+int main(){
+	int i,j,k,a,b,c;
+	scanf("%d",&T);
+	scanf("%d",&n);
+	Init_SBT(n);
+	for(i=1;i<=n;i++){
+		scanf("%d%d%d",&a,&b,&c);
+		a=(ll)a^(Ans%Inf);
+		AddPoint(a,b,c);
+		Query(Totn);
+		printf("%lld\n",Ans);
+	}
+}
