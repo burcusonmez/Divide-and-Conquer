@@ -1,5 +1,6 @@
 *.in
 *.out
+*.ans
 .vscode/*
 .~*.*
 p3984
