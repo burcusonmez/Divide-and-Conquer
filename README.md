@@ -144,6 +144,10 @@ BFS取出来的点按深度递增，于是可以用单调队列维护
 
 #### [BZOJ 2152 聪聪可可](http://www.lydsy.com/JudgeOnline/problem.php?id=2152)
 
+#### [Contest 180107 C]
+
+类似重建计划
+
 
 
 ## 分块  
