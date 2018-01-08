@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<assert.h>
 #include<string.h>
 #include<vector>
 #include<stack>
@@ -6,7 +7,8 @@
 using namespace std;
 typedef long long ll;
 const int N=100005,Inf=1e9;
-
+#define DEBUG 0
+#define BREAK 18
 //-----------SBT-----------
 
 struct Node{
@@ -76,6 +78,11 @@ void Collect(Node* x){
 	if(x->Son[1]!=null)Collect(x->Son[1]);
 }
 
+void Print(Node* x){
+	if(x->Son[0]!=null)Print(x->Son[0]);
+	printf("%d ",x->Val);
+	if(x->Son[1]!=null)Print(x->Son[1]);
+}
 //-----------Globals-----------
 
 int T,n,Totn;
@@ -99,8 +106,8 @@ int Size[N],Fa[N],Dep[N];
 bool Vis[N];
 
 //Tree DC Data
-int CG[22][N];
-ll Dis[22][N];
+int CG[35][N];
+ll Dis[35][N];
 
 //ReBuild
 int Minn,Rt,sz[N];
@@ -122,14 +129,17 @@ void GetPre(int x){
 }
 void GetData(int x,ll *dis,ll *predis,int *cg,int k,ll d,int fa){
 	dis[x]=d;cg[x]=k;
-	Insert(T1[x],dis[x]-D[x]);
-	Insert(T2[x],predis[x]-D[x]);
+	Insert(T1[k],dis[x]-D[x]);
+	Insert(T2[k],predis[x]-D[x]);
 	for(vi now=G[x].begin();now!=G[x].end();now++)
-	if(!Vis[nd]&&nd!=fa)GetData(nd,dis,predis,cg,k,now->len,x);
+	if(!Vis[nd]&&nd!=fa)GetData(nd,dis,predis,cg,k,d+now->len,x);
 }
 int GetTree(int x){
 	Vis[x]=1,Size[x]=1;
 	Dep[x]=Dep[Fa[x]]+1;
+#if DEBUG
+	for(int i=Dep[x]+1;i<=30;i++)CG[i][x]=0,Dis[i][x]=0;
+#endif
 	GetData(x,Dis[Dep[x]],Dis[Dep[x]-1],CG[Dep[x]],x,0,0);
 	for(vi now=G[x].begin();now!=G[x].end();now++)
 		if(!Vis[nd]){
@@ -139,36 +149,22 @@ int GetTree(int x){
 		}
 	return Size[x];
 }
-void Clean(int x){
+void Clean(int x,int k,int fa){
 	Vis[x]=0;
 	if(T1[x]!=null)Collect(T1[x]);
 	if(T2[x]!=null)Collect(T2[x]);
+	T1[x]=T2[x]=null;
 	for(vi now=G[x].begin();now!=G[x].end();now++)
-	if(Dep[nd]>Dep[x])Clean(nd);
+	if(CG[Dep[k]][nd]==k&&nd!=fa)Clean(nd,k,x);
 }
 void ReBuild(int x){			//ReBuild the DC tree from the root x
-	Clean(x);
-	GetTree(x);
+	Clean(x,x,0);
+	GetPre(x);
+	Fa[Rt]=Fa[x];
+	GetTree(Rt);
 }
 bool Isbad(int x){
 	return (double)Size[x]>(double)Size[Fa[x]]*0.8;
-}
-
-//lca for getting distance
-int lca_fa[N][22],lca_dep[N];
-ll lca_dis[N];
-int LCA(int x,int y){
-	if(lca_dep[x]>lca_dep[y])swap(x,y);
-	int i,t=lca_dep[y]-lca_dep[x];
-	for(i=0;i<=20;i++)
-	if((1<<i)&t)y=lca_fa[y][i];
-	if(x==y)return x;
-	for(i=20;i>=0;i--)
-	if(lca_fa[x][i]!=lca_fa[y][i])x=lca_fa[x][i],y=lca_fa[y][i];
-	return lca_fa[x][0];
-}
-ll lca_getdis(int x,int y){
-	return lca_dis[x]+lca_dis[y]-2*lca_dis[LCA(x,y)];
 }
 
 //-----------Dymatic Querys-----------
@@ -188,17 +184,11 @@ void AddPoint(int fa,int d,int r){
 	Size[x]=1;
 	for(u=Fa[x];u;u=Fa[u])Size[u]++;
 
-	//init lca Data
-	lca_fa[x][0]=fa;
-	for(i=1;i<=20;i++)lca_fa[x][i]=lca_fa[lca_fa[x][i-1]][i-1];
-	lca_dis[x]=lca_dis[fa]+d;
-	lca_dep[x]=lca_dep[fa]+1;
-
 	//init TreeDc Data
 	Dis[0][x]=Inf;
-	for(u=x;u;u=Fa[u]){
+	for(u=Fa[x];u;u=Fa[u]){
 		CG[Dep[u]][x]=u;
-		Dis[Dep[u]][x]=lca_getdis(u,x);
+		Dis[Dep[u]][x]=Dis[Dep[u]][fa]+d/* lca_getdis(u,x) */;
 	}
 
 	//init SBT Data
@@ -208,18 +198,22 @@ void AddPoint(int fa,int d,int r){
 	}
 
 	//If rebuild
-	for(u=x;u;u=Fa[u])
-		if(Isbad(u))t=Fa[u];
+	for(u=x;Fa[u];u=Fa[u])
+		if(Isbad(u)||Dep[u]>30)t=Fa[u];
 	if(t)ReBuild(t);
+#if DEBUG
+	if(t)printf("ReBuilt :: %d\n",t);
+#endif
 }
 void Query(int x){
-	Ans-=GetSum(T2[x],D[x]-Dis[Dep[x]-1][x]);
-	for(int u=Fa[x];u;u=Fa[u])
+	if(D[x]>0)Ans--;
+	for(int u=x;u;u=Fa[u])
 		Ans+=GetSum(T1[u],D[x]-Dis[Dep[u]][x])-GetSum(T2[u],D[x]-Dis[Dep[u]-1][x]);
 }
 
 
 int main(){
+	// freopen("ex_flower2.in","r",stdin);
 	int i,j,k,a,b,c;
 	scanf("%d",&T);
 	scanf("%d",&n);
@@ -227,8 +221,30 @@ int main(){
 	for(i=1;i<=n;i++){
 		scanf("%d%d%d",&a,&b,&c);
 		a=(ll)a^(Ans%Inf);
+#if DEBUG
+		if(i==BREAK){
+			// for(j=1;j<=BREAK;j++)Print(T1[j]),puts("");
+			// puts("");
+			// for(j=1;j<=BREAK;j++)Print(T2[j]),puts("");
+			// puts("");
+		}
+#endif
 		AddPoint(a,b,c);
+#if DEBUG
+		if(i==BREAK){
+			// for(j=1;j<=BREAK;j++)Print(T1[j]),puts("");
+			// puts("");
+			// for(j=1;j<=BREAK;j++)Print(T2[j]),puts("");
+			// puts("");
+			for(j=1;j<=BREAK;j++)printf("%d ",Fa[j]);
+			puts("");
+
+		}
+#endif
 		Query(Totn);
 		printf("%lld\n",Ans);
+#if DEBUG
+		if(i==18)break;
+#endif
 	}
 }
