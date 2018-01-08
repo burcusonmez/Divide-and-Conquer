@@ -108,7 +108,13 @@ void On(int x){
 
 计算权值用动态点分治，注意不与原树搞混即可
 
-#### [NKOJ 2703 【WC2014】紫荆花之恋（强数据版）](http://oi.nks.edu.cn/zh/Problem/Details/2703)
+#### [NKOJ 2703 【WC2014】紫荆花之恋（强数据版）](http://oi.nks.edu.cn/zh/Problem/Details/2703):white_check_mark:
+
+将原要求转化为Dis[i]-D[i]<=D[j]-Dis[j]
+
+每个点开一个sbt记左边的，再开一个用作差分
+
+给点分治树上重构即可
 
 #### [NKOJ 2702 【WC2014】紫荆花之恋（弱数据版）](http://oi.nks.edu.cn/zh/Problem/Details/2702)
 

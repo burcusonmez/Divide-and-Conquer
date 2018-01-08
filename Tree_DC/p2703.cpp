@@ -7,13 +7,15 @@
 using namespace std;
 typedef long long ll;
 const int N=100005,Inf=1e9;
+const ll Infl=9e18;
 #define DEBUG 0
 #define BREAK 18
 //-----------SBT-----------
 
 struct Node{
 	Node* Son[2];
-	int Val,Size;
+	int Size;
+	ll Val;
 }*T1[N],*T2[N],*null,*tl,pool[N<<7];
 stack<Node*>Bin;
 void Init_SBT(int sz){
@@ -51,7 +53,7 @@ void Maintain(Node* &x,bool flag){
 	Maintain(x,0);
 	Maintain(x,1);
 }
-void Insert(Node* &x,int v){
+void Insert(Node* &x,ll v){
 	if(x==null){
 		if(!Bin.empty())x=Bin.top(),Bin.pop();
 		else x=++tl;
@@ -64,7 +66,7 @@ void Insert(Node* &x,int v){
 	Insert(x->Son[l],v);
 	Maintain(x,l);
 }
-ll GetSum(Node* x,int k){
+ll GetSum(Node* x,ll k){
 	ll sum=0;
 	while(x!=null){
 		if(k<x->Val)x=x->Son[0];
@@ -78,11 +80,13 @@ void Collect(Node* x){
 	if(x->Son[1]!=null)Collect(x->Son[1]);
 }
 
+#if DEBUG
 void Print(Node* x){
 	if(x->Son[0]!=null)Print(x->Son[0]);
 	printf("%d ",x->Val);
 	if(x->Son[1]!=null)Print(x->Son[1]);
 }
+#endif
 //-----------Globals-----------
 
 int T,n,Totn;
@@ -116,17 +120,20 @@ void Getsz(int x,int fa){
 	for(vi now=G[x].begin();now!=G[x].end();now++)
 	if(!Vis[nd]&&nd!=fa)Getsz(nd,x),sz[x]+=sz[nd];
 }
+
 void GetRt(int x,int tot,int fa){
 	int Maxx=tot-sz[x];
 	for(vi now=G[x].begin();now!=G[x].end();now++)
 	if(!Vis[nd]&&nd!=fa)GetRt(nd,tot,x),Maxx=max(Maxx,sz[nd]);
 	if(Maxx<Minn)Minn=Maxx,Rt=x;
 }
+
 void GetPre(int x){
 	Minn=1e9;
 	Getsz(x,0);
 	GetRt(x,sz[x],0);
 }
+
 void GetData(int x,ll *dis,ll *predis,int *cg,int k,ll d,int fa){
 	dis[x]=d;cg[x]=k;
 	Insert(T1[k],dis[x]-D[x]);
@@ -134,12 +141,11 @@ void GetData(int x,ll *dis,ll *predis,int *cg,int k,ll d,int fa){
 	for(vi now=G[x].begin();now!=G[x].end();now++)
 	if(!Vis[nd]&&nd!=fa)GetData(nd,dis,predis,cg,k,d+now->len,x);
 }
+
 int GetTree(int x){
 	Vis[x]=1,Size[x]=1;
 	Dep[x]=Dep[Fa[x]]+1;
-#if DEBUG
 	for(int i=Dep[x]+1;i<=30;i++)CG[i][x]=0,Dis[i][x]=0;
-#endif
 	GetData(x,Dis[Dep[x]],Dis[Dep[x]-1],CG[Dep[x]],x,0,0);
 	for(vi now=G[x].begin();now!=G[x].end();now++)
 		if(!Vis[nd]){
@@ -149,6 +155,7 @@ int GetTree(int x){
 		}
 	return Size[x];
 }
+
 void Clean(int x,int k,int fa){
 	Vis[x]=0;
 	if(T1[x]!=null)Collect(T1[x]);
@@ -157,14 +164,16 @@ void Clean(int x,int k,int fa){
 	for(vi now=G[x].begin();now!=G[x].end();now++)
 	if(CG[Dep[k]][nd]==k&&nd!=fa)Clean(nd,k,x);
 }
+
 void ReBuild(int x){			//ReBuild the DC tree from the root x
 	Clean(x,x,0);
 	GetPre(x);
 	Fa[Rt]=Fa[x];
 	GetTree(Rt);
 }
+
 bool Isbad(int x){
-	return (double)Size[x]>(double)Size[Fa[x]]*0.8;
+	return (double)Size[x]>(double)Size[Fa[x]]*0.75;
 }
 
 //-----------Dymatic Querys-----------
@@ -200,11 +209,15 @@ void AddPoint(int fa,int d,int r){
 	//If rebuild
 	for(u=x;Fa[u];u=Fa[u])
 		if(Isbad(u)||Dep[u]>30)t=Fa[u];
-	if(t)ReBuild(t);
+	if(t){
+		ReBuild(t);
 #if DEBUG
-	if(t)printf("ReBuilt :: %d\n",t);
+		printf("ReBuilding----%d\n",t);
 #endif
+		return;
+	}
 }
+
 void Query(int x){
 	if(D[x]>0)Ans--;
 	for(int u=x;u;u=Fa[u])
@@ -244,7 +257,7 @@ int main(){
 		Query(Totn);
 		printf("%lld\n",Ans);
 #if DEBUG
-		if(i==18)break;
+		if(i==BREAK)break;
 #endif
 	}
 }
