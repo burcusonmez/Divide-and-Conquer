@@ -149,3 +149,7 @@ BFS取出来的点按深度递增，于是可以用单调队列维护
 水题，dfs两遍即可。写了个搞笑的动态点分治
 
 #### [BZOJ 2152 聪聪可可](http://www.lydsy.com/JudgeOnline/problem.php?id=2152)
+
+#### [NKOJ4383【FJOI2014】最短路径树问题](http://oi.nks.edu.cn/zh/Problem/Details/4383):white_check_mark:
+
+类似重建计划
