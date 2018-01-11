@@ -1,4 +1,7 @@
 # CDQ&&GB CDQ分治、整体二分
+
+>%%%Oblack...
+
 ## CDQ分治
 
 #### [NKOJ3655 菊花的故事](http://42.247.7.121/zh/Problem/Details?id=3655)
