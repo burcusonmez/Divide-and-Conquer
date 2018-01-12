@@ -4,7 +4,9 @@
 
 ## CDQ分治
 
-#### [NKOJ3655 菊花的故事](http://42.247.7.121/zh/Problem/Details?id=3655)
+#### [NKOJ3655 菊花的故事](http://42.247.7.121/zh/Problem/Details?id=3655) :kiss:
+
+模板 :clapper:
 
 #### [NKOJ2041 CQOI2011 动态逆序对](http://42.247.7.121/zh/Problem/Details?id=2041)
 
