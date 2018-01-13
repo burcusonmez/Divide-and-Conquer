@@ -1,5 +1,7 @@
 # Divide-and-Conquer 分治
 
+> :cn: :kissing: I'm Darth Vader LOOOOOOL...:pig: :pig: 
+
 ## 点分治  
 
 #### [NKOJ 3328 距离状态 ](http://oi.nks.edu.cn/zh/Problem/Details?id=3328) :white_check_mark:
@@ -108,7 +110,7 @@ void On(int x){
 
 计算权值用动态点分治，注意不与原树搞混即可
 
-#### [NKOJ 2703 【WC2014】紫荆花之恋（强数据版）](http://oi.nks.edu.cn/zh/Problem/Details/2703):white_check_mark:
+#### [NKOJ 2703 【WC2014】紫荆花之恋（强数据版）](http://oi.nks.edu.cn/zh/Problem/Details/2703):heavy_check_mark: :kiss: :fire:   
 
 将原要求转化为Dis[i]-D[i]<=D[j]-Dis[j]
 
@@ -136,7 +138,7 @@ BFS取出来的点按深度递增，于是可以用单调队列维护
 
 优化：每个重心的子树按最大深度从小到大排序，防止被”扫把图“卡
 
-#### [NKOJ 4351【大学生赛重庆2017】A ](http://oi.nks.edu.cn/zh/Problem/Details?id=4351):white_check_mark:
+#### [NKOJ 4351【大学生赛重庆2017】A ](http://oi.nks.edu.cn/zh/Problem/Details?id=4351):white_check_mark: :fire: 
 
 上静态点分治，fft算一下当前答案给每个点加一下，发现每个点的子节点距离都多算了2,减掉即可
 
@@ -156,8 +158,74 @@ BFS取出来的点按深度递增，于是可以用单调队列维护
 
 
 
-## 分块  
-bzoj2724 区间众数  
-bzoj2880 此题不可做  
-bzoj3065 分块  
-bzoj4216 分块卡空间
+
+>%%% WJMZBMR...
+>%%% VFleaking...
+
+## 分块
+
+#### [bzoj2724 [Violet 6]蒲公英](http://www.lydsy.com/JudgeOnline/problem.php?id=2724) :white_check_mark:
+
+区间众数
+
+#### [bzoj3065 带插入区间第k小数](http://www.lydsy.com/JudgeOnline/problem.php?id=3065)
+
+分块然后排序，emmmm... :fire:
+
+
+
+>%%%Oblack...
+
+## CDQ分治
+
+#### [NKOJ3655 菊花的故事](http://42.247.7.121/zh/Problem/Details?id=3655) :kiss:
+
+模板 :clapper:
+
+#### [NKOJ2041 CQOI2011 动态逆序对](http://42.247.7.121/zh/Problem/Details?id=2041) :heavy_check_mark:
+
+CDQ:
+
+第一维删除时间，最先删的放在后面
+
+第二维数组位置，小的在左边
+
+第三位值
+
+#### [NKOJ2739【Violet III】天使玩偶](http://42.247.7.121/zh/Problem/Details?id=2739)
+
+#### [NKOJ3933 贝壳串](http://42.247.7.121/zh/Problem/Details?id=3933)
+
+#### [NKOJ3652 Shallot](http://42.247.7.121/zh/Problem/Details?id=3652)
+
+#### [NKOJ2936 【FJ Training 2014 Day2】城市建设](http://42.247.7.121/zh/Problem/Details?id=2936)
+
+#### [NKOJ3931 货币兑换](http://42.247.7.121/zh/Problem/Details?id=3931)
+
+#### [bzoj1176 [Balkan2007]Mokia](http://www.lydsy.com/JudgeOnline/problem.php?id=1176)
+
+#### [bzoj2244 [SDOI2011]拦截导弹](http://www.lydsy.com/JudgeOnline/problem.php?id=2244)
+
+#### [bzoj4025 二分图](http://www.lydsy.com/JudgeOnline/problem.php?id=4025)
+
+#### [bzoj1453 [Wc]Dface双面棋盘](http://www.lydsy.com/JudgeOnline/problem.php?id=1453)
+
+#### [bzoj3276 磁力](http://www.lydsy.com/JudgeOnline/problem.php?id=3276)
+
+#### [bzoj1790 [Ahoi2008]Rectangle 矩形藏宝地](http://www.lydsy.com/JudgeOnline/problem.php?id=1790)
+
+#### [bzoj3236 [Ahoi2013]作业](http://www.lydsy.com/JudgeOnline/problem.php?id=3236)
+
+#### [bzoj4553 [Tjoi2016&Heoi2016]序列](http://www.lydsy.com/JudgeOnline/problem.php?id=4553)
+
+
+
+## 整体二分
+
+#### [NKOJ2670 动态区间第K小数](http://42.247.7.121/zh/Problem/Details?id=2670)
+
+#### [NKOJ3932 Meteors](http://42.247.7.121/zh/Problem/Details?id=3932)
+
+#### [NKOJ4054 [Hnoi2016 day1]网络](http://42.247.7.121/zh/Problem/Details/4054)
+
+#### [bzoj2738 矩阵乘法](http://www.lydsy.com/JudgeOnline/problem.php?id=2738)
