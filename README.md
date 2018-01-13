@@ -1,10 +1,12 @@
 # Divide-and-Conquer 分治
 
+****************
+
 > :cn: :kissing: I'm Darth Vader LOOOOOOL...:pig: :pig: 
 
 ## 点分治  
 
-#### [NKOJ 3328 距离状态 ](http://oi.nks.edu.cn/zh/Problem/Details?id=3328) :white_check_mark:
+####  [NKOJ 3328 距离状态 ](http://oi.nks.edu.cn/zh/Problem/Details?id=3328) :white_check_mark:
 
 模板
 
@@ -22,66 +24,11 @@
 
 时间复杂度$O(nlog^2n)$ ，空间复杂度$O(nlogn)$  
 
-##### 动态点分治模板
-
-```c++
-int Root,Rt,Vis[N],Size[N],Fa[N],Dep[N];
-ll Dis,Minn,FLen[N][30];	//FLen[i][j]表示i号节点到第j层的父节点的距离
-ll Sum[N];				//Sum[i]=sum{Dis[j][Dep[i]]-Dis[j][Dep[i]-1]}(j为i子节点)
-						//即i子节点到i距离之和减去到i父亲距离之和
-						//方便处理，在子节点上提前减掉其影响%%%Sparrow
-vector<int>G[N];
-void GetSize(int x,int fa){
-	Size[x]=1;
-	for(int i=Last[x],u;i;i=Next[i]){
-		u=End[i];
-		if(u!=fa&&!Vis[u]){
-			GetSize(u,x);
-			Size[x]+=Size[u];
-		}
-	}
-}
-void GetRoot(int x,int tot,int d,int fa){
-	int Maxx=tot-Size[x],i,u;
-	for(i=Last[x];i;i=Next[i]){
-		u=End[i];
-		if(u!=fa&&!Vis[u]){
-			Maxx=max(Maxx,Size[u]);
-			GetRoot(u,tot,d+Len[i],x);
-		}
-	}
-	if(Maxx<Minn)Minn=Maxx,Rt=x,Dis=d;
-}
-void GetDis(int x,int k,int d,int fa){
-	FLen[x][k]=d;
-	for(int i=Last[x];i;i=Next[i])
-		if(End[i]!=fa&&!Vis[End[i]])GetDis(End[i],k,d+Len[i],x);
-}
-void Pre(int x){
-	Minn=Inf;
-	GetSize(x,0);
-	GetRoot(x,Size[x],0,0);
-}
-void GetTree(int x){
-	Vis[x]=1;
-	Dep[x]=Dep[Fa[x]]+1;
-	GetDis(x,Dep[x],0,0);	//得到其子节点与其距离
-	for(int u,i=Last[x];i;i=Next[i]){
-		u=End[i];
-		if(!Vis[u]){
-			Pre(u);		//找出新的重心
-			G[x].push_back(Rt);Fa[Rt]=x;	//与子节点连接
-			GetTree(Rt);
-		}
-	}
-}
-```
-
 #### [NKOJ 4056 【ZJOI2007】Hide 捉迷藏](http://42.247.7.121/zh/Problem/Details/4065):white_check_mark:
 
 每个点开两个堆，一个记子节点到上一层重心距离，一个记其子树到它的链,全局堆记答案
 
-##### 关于堆的一些操作
+**关于堆的一些操作**
 
 如果堆A是堆B[]的堆顶集合，我们修改了一个堆B[i]，怎么维护堆A？
 
@@ -158,11 +105,13 @@ BFS取出来的点按深度递增，于是可以用单调队列维护
 
 
 
+**********************************
+
+# 分块
+
 
 >%%% WJMZBMR...
 >%%% VFleaking...
-
-## 分块
 
 #### [bzoj2724 [Violet 6]蒲公英](http://www.lydsy.com/JudgeOnline/problem.php?id=2724) :white_check_mark:
 
@@ -174,9 +123,11 @@ BFS取出来的点按深度递增，于是可以用单调队列维护
 
 
 
->%%%Oblack...
+___
 
-## CDQ分治
+# CDQ分治
+
+>%%%Oblack...
 
 #### [NKOJ3655 菊花的故事](http://42.247.7.121/zh/Problem/Details?id=3655) :kiss:
 
@@ -219,6 +170,8 @@ CDQ:
 #### [bzoj4553 [Tjoi2016&Heoi2016]序列](http://www.lydsy.com/JudgeOnline/problem.php?id=4553)
 
 
+
+---
 
 ## 整体二分
 
