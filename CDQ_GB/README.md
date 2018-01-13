@@ -8,7 +8,15 @@
 
 模板 :clapper:
 
-#### [NKOJ2041 CQOI2011 动态逆序对](http://42.247.7.121/zh/Problem/Details?id=2041)
+#### [NKOJ2041 CQOI2011 动态逆序对](http://42.247.7.121/zh/Problem/Details?id=2041) :heavy_check_mark:
+
+CDQ:
+
+第一维删除时间，最先删的放在后面
+
+第二维数组位置，小的在左边
+
+第三位值
 
 #### [NKOJ2739【Violet III】天使玩偶](http://42.247.7.121/zh/Problem/Details?id=2739)
 
