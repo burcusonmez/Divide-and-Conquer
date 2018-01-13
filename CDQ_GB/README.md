@@ -4,6 +4,10 @@
 
 ## CDQ分治
 
+第一类CDQ：算出左边和右边的答案，在合并
+
+第二类CDQ：算出左边的答案，统计对右边的影响，再处理右边 :fire:
+
 #### [NKOJ3655 菊花的故事](http://42.247.7.121/zh/Problem/Details?id=3655) :kiss:
 
 模板 :clapper:
@@ -20,7 +24,11 @@ CDQ:
 
 #### [NKOJ2739【Violet III】天使玩偶](http://42.247.7.121/zh/Problem/Details?id=2739)
 
-#### [NKOJ3933 贝壳串](http://42.247.7.121/zh/Problem/Details?id=3933)
+#### [NKOJ3933 贝壳串](http://42.247.7.121/zh/Problem/Details?id=3933) :kiss:
+
+方程$f[i]=\sum_{j=0}^i f[j]*a[i-j]$
+
+fft+cdq，处理左边答案对右边的影响即可
 
 #### [NKOJ3652 Shallot](http://42.247.7.121/zh/Problem/Details?id=3652)
 
