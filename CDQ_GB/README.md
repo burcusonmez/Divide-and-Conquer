@@ -56,7 +56,19 @@ fft+cdq，处理左边答案对右边的影响即可
 
 ## 整体二分
 
-#### [NKOJ2670 动态区间第K小数](http://42.247.7.121/zh/Problem/Details?id=2670)
+#### [NKOJ2670 动态区间第K小数](http://42.247.7.121/zh/Problem/Details?id=2670) :heavy_check_mark: :fireworks: :clapper: 
+
+整体二分
+
+二分一个mid,以时间顺序讨论，对于值小于等于mid的数和修改，用树状数组统计起来
+
+由于是以时间顺序讨论，所以当前讨论的询问中，若满足k个，说明它的答案是小于mid的（因为树状数组里只统计了小于mid的值），将它划到左边继续讨论
+
+对于不满足k个的，去掉小于mid的影响，放入右边讨论
+
+对于数和修改，也按照mid进行划分
+
+直到分治到底层，这时询问都已有了答案 :smile: :dog:
 
 #### [NKOJ3932 Meteors](http://42.247.7.121/zh/Problem/Details?id=3932)
 
