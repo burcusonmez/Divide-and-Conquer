@@ -70,7 +70,9 @@ fft+cdq，处理左边答案对右边的影响即可
 
 直到分治到底层，这时询问都已有了答案 :smile: :dog:
 
-#### [NKOJ3932 Meteors](http://42.247.7.121/zh/Problem/Details?id=3932)
+#### [NKOJ3932 Meteors](http://42.247.7.121/zh/Problem/Details?id=3932) :heavy_check_mark: :fireworks:
+
+也是板题，注意一下ll边界
 
 #### [NKOJ4054 [Hnoi2016 day1]网络](http://42.247.7.121/zh/Problem/Details/4054)
 
