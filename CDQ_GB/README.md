@@ -40,7 +40,21 @@ fft+cdq，处理左边答案对右边的影响即可
 
 #### [bzoj2244 [SDOI2011]拦截导弹](http://www.lydsy.com/JudgeOnline/problem.php?id=2244)
 
-#### [bzoj4025 二分图](http://www.lydsy.com/JudgeOnline/problem.php?id=4025)
+#### [bzoj4025 二分图](http://www.lydsy.com/JudgeOnline/problem.php?id=4025) :white_check_mark:
+
+经典的CDQ嵌套数据结构
+
+对于一条边，若它的存在区间为(L,R);
+
+若在CDQ时，一条边横跨整个区间，则将这条边的影响加入到当前数据结构中
+
+若该边在左侧，则将它放在加入左侧的队列，右侧同；
+
+若该边横跨mid，则将它拆为(L,mid),(mid+1,R);
+
+搞完了以后，再处理左右区间，处理完后，还原数据结构
+
+本题维护是否有奇环，用并查集，判定是否两个点到图中一个点（并查集的根）距离是否为奇
 
 #### [bzoj1453 [Wc]Dface双面棋盘](http://www.lydsy.com/JudgeOnline/problem.php?id=1453)
 
