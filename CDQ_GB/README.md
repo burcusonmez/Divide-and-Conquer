@@ -94,4 +94,6 @@ LCT卡不过 。。。 ​
 
 #### [NKOJ4054 [Hnoi2016 day1]网络](http://42.247.7.121/zh/Problem/Details/4054)
 
-#### [bzoj2738 矩阵乘法](http://www.lydsy.com/JudgeOnline/problem.php?id=2738)
+#### [bzoj2738 矩阵乘法](http://www.lydsy.com/JudgeOnline/problem.php?id=2738) :heavy_check_mark: :fire:
+
+整体二分+二维树状数组
