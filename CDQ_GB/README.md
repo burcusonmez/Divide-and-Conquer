@@ -38,7 +38,9 @@ LCT卡不过 。。。 ​
 
 #### [NKOJ3931 货币兑换](http://42.247.7.121/zh/Problem/Details?id=3931)
 
-#### [bzoj1176 [Balkan2007]Mokia](http://www.lydsy.com/JudgeOnline/problem.php?id=1176)
+#### [bzoj1176 [Balkan2007]Mokia](http://www.lydsy.com/JudgeOnline/problem.php?id=1176) :heavy_check_mark: :fire:
+
+拆查询，板题
 
 #### [bzoj2244 [SDOI2011]拦截导弹](http://www.lydsy.com/JudgeOnline/problem.php?id=2244)
 
