@@ -32,7 +32,9 @@ fft+cdq，处理左边答案对右边的影响即可
 
 #### [NKOJ3652 Shallot](http://42.247.7.121/zh/Problem/Details?id=3652)
 
-#### [NKOJ2936 【FJ Training 2014 Day2】城市建设](http://42.247.7.121/zh/Problem/Details?id=2936)
+#### [NKOJ2936 【FJ Training 2014 Day2】城市建设](http://42.247.7.121/zh/Problem/Details?id=2936) :question:
+
+LCT卡不过 。。。 ​
 
 #### [NKOJ3931 货币兑换](http://42.247.7.121/zh/Problem/Details?id=3931)
 
