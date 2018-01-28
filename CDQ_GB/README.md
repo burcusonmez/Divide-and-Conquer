@@ -36,7 +36,7 @@ fft+cdq，处理左边答案对右边的影响即可
 
 LCT卡不过 。。。 ​
 
-#### [NKOJ3931 货币兑换](http://42.247.7.121/zh/Problem/Details?id=3931)
+#### [NKOJ3931 货币兑换](http://42.247.7.121/zh/Problem/Details?id=3931) :heavy_check_mark:
 
 #### [bzoj1176 [Balkan2007]Mokia](http://www.lydsy.com/JudgeOnline/problem.php?id=1176) :heavy_check_mark: :fire:
 
